@@ -1,12 +1,12 @@
 <template>
   <div>
     <h1>Testing Nuxt reactivity</h1>
-	<p>We are testing the boolean value <span class="mono">isMobileDevice</span>, which is a getter from the media store. It depends on the state property <span class="mono">windowWidth</span>, and there is a client-side plugin to update that based on the window's <span class="mono">resize</span> event. <br><br><span class="mono">isMobileDevice</span> should be true if the window viewport is less than 768 pixels wide
+	<p>We are testing the boolean value <span class="mono">isMobileDevice</span>, which is a composable.
 	</p>
 
 	<hr>
 
-	<p :class="{'is-blue': store.isMobileDevice }">
+	<p :class="{'is-blue': isMobileDevice }">
 		This text should be blue if it's a narrow device. (testing binding to a class)
 	</p>
 
@@ -14,7 +14,7 @@
 
 	<p>
 		The value below is the <span class="mono">isMobileDevice</span> boolean getter property, and will break hydration if loaded on a wide page:<br>
-		{{ store.isMobileDevice }}
+		{{ isMobileDevice }}
 	</p>
 
 	<hr>
@@ -25,7 +25,7 @@
 			<template #placeholder>
 
 			</template>
-			{{ store.isMobileDevice }}
+			{{ isMobileDevice }}
 		</ClientOnly>
 	</p>
 
@@ -34,8 +34,10 @@
 
 <script setup>
 
-import { useMediaStore } from "~/store"
-const store = useMediaStore();
+const foo = isMobileDevice;
+watchEffect(() => {
+	console.warn("Foo has updated", foo.value);
+})
 
 </script>
 
